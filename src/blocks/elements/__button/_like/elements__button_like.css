@@ -1,0 +1,7 @@
+.elements__button_like {
+  background-image: url(../../../../images/like-disabled.svg);
+  background-color: white;
+  border-color: white;
+  width: 22px;
+  height: 19px;
+}
