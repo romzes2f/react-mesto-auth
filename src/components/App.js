@@ -34,27 +34,27 @@ function App() {
   const [isSuccess, setIsSuccess] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-  //Token Check
+  // Проверка токена при монтировании компонента
   useEffect(() => {
-    const jwt = localStorage.getItem("jwt")
+    const jwt = localStorage.getItem("jwt");
     if (jwt) {
       auth
         .checkToken(jwt)
         .then((res) => {
-          setIsLoggedIn(true)
-          setEmail(res.data.email)
-          history.push("/")
+          setIsLoggedIn(true);
+          setEmail(res.data.email);
+          history.push("/");
         })
         .catch((err) => {
           if (err.status === 401) {
-            console.log("401 — Токен не передан или передан не в том формате")
+            console.log("401 — Токен не передан или передан не в том формате");
           }
-          console.log("401 — Переданный токен некорректен")
-        })
+          console.log("401 — Переданный токен некорректен");
+        });
     }
-  }, [history])
+  }, []);
 
-  //UserInfo & InitialCards Rendering
+  // Получение информации о пользователе и начальных карточек после аутентификации
   useEffect(() => {
     if (isLoggedIn) {
       api
@@ -79,14 +79,14 @@ function App() {
     }
   }, [isLoggedIn])
 
-  //Function - Overlay Close
+  // Функция для закрытия попапа по клику на оверлей
   function closeByOverlay(evt) {
     if (evt.target === evt.currentTarget) {
       closeAllPopups()
     }
   }
 
-  // useEffect State Check
+  // Проверка состояния для открытия попапов по нажатию на Escape
   const isOpen =
     isEditAvatarPopupOpen ||
     isEditProfilePopupOpen ||
@@ -94,7 +94,7 @@ function App() {
     isConfirmationPopupOpen ||
     selectedCard.link
 
-  //Function - Esc Button
+  // Закрытие попапов по нажатию на Escape
   useEffect(() => {
     function closeByEscape(evt) {
       if (evt.key === "Escape") {
@@ -109,7 +109,7 @@ function App() {
     }
   }, [isOpen])
 
-  //Function - Close All Popups
+  // Функция для закрытия всех попапов
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false)
     setIsAddPlacePopupOpen(false)
@@ -120,7 +120,7 @@ function App() {
     setInfoToolTipPopupOpen(false)
   }
 
-  //API Request - Edit Avatar
+  // API-запрос для изменения аватара пользователя
   function handleEditAvatar(newAvatar) {
     setIsLoading(true)
     api
@@ -133,7 +133,7 @@ function App() {
       .finally(() => setIsLoading(false))
   }
 
-  //API Request - Edit User Info
+  // API-запрос для изменения информации о пользователе
   function handleEditUserInfo(newUserInfo) {
     setIsLoading(true)
     api
@@ -146,7 +146,7 @@ function App() {
       .finally(() => setIsLoading(false))
   }
 
-  //API Request - Add Place Card
+  // API-запрос для добавления карточки
   function handleAddPlaceCard(data) {
     setIsLoading(true)
     api
@@ -160,7 +160,7 @@ function App() {
       .finally(() => setIsLoading(false))
   }
 
-  //API Request - Like & Dislike Button
+  // API-запрос для лайка/дизлайка карточки
   function handleCardLike(card) {
     const isLiked = card.likes.some((user) => user._id === currentUser._id)
 
@@ -185,7 +185,7 @@ function App() {
     }
   }
 
-  //API - Delete Place Card
+  // API-запрос для удаления карточки
   function handleDeleteCard(card) {
     setIsLoading(true)
     api
@@ -194,12 +194,11 @@ function App() {
         setCards((state) => state.filter((item) => item._id !== card._id))
         closeAllPopups()
       })
-
       .catch((error) => console.log(`Ошибка: ${error}`))
       .finally(() => setIsLoading(false))
   }
 
-  //Function - Register User
+  // Функция для регистрации пользователя
   function handleRegisterUser(email, password) {
     auth
       .registerUser(email, password)
@@ -217,7 +216,7 @@ function App() {
       })
   }
 
-  //Function - Login User
+  // Функция для авторизации пользователя
   function handleLoginUser(email, password) {
     auth
       .loginUser(email, password)
@@ -238,7 +237,7 @@ function App() {
       })
   }
 
-  //Function - User Sign Out
+  // Функция для выхода из аккаунта
   function handleSignOut() {
     localStorage.removeItem("jwt")
     setIsLoggedIn(false)
@@ -247,7 +246,7 @@ function App() {
     setIsMobileMenuOpen(false)
   }
 
-  //Function - Mobile Menu
+  // Функция для управления мобильным меню
   function handleClickOpenMobileMenu() {
     if (isLoggedIn) {
       setIsMobileMenuOpen(!isMobileMenuOpen)
