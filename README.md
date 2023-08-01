@@ -1,6 +1,6 @@
 # Проект: Место React
 
-* [GitHub Pages](https://romzes2f.github.io/mesto-react/)
+* [GitHub Pages](https://romzes2f.github.io/react-mesto-auth/)
 
 ### Технологии
 
